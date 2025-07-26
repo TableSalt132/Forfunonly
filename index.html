@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Roast or Compliment Bot</title>
+  <style>
+    body {
+      background: #f9f5ff;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    h1 {
+      color: #6b21a8;
+      margin-bottom: 0.5rem;
+    }
+
+    .mode-select {
+      margin-bottom: 1rem;
+    }
+
+    .chat-box {
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      background: #fff;
+      padding: 1rem;
+      width: 100%;
+      max-width: 500px;
+      height: 400px;
+      overflow-y: auto;
+      margin-bottom: 1rem;
+    }
+
+    .message {
+      margin-bottom: 10px;
+    }
+
+    .user {
+      text-align: right;
+      color: #1d4ed8;
+    }
+
+    .bot {
+      text-align: left;
+      color: #10b981;
+    }
+
+    .input-area {
+      display: flex;
+      gap: 0.5rem;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    input[type="text"] {
+      flex-grow: 1;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    button {
+      padding: 0.5rem 1rem;
+      background: #6d28d9;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #5b21b6;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Roast or Compliment Bot</h1>
+  
+  <div class="mode-select">
+    <label><input type="radio" name="mode" value="roast" checked> Roast Me 🔥</label>
+    <label style="margin-left:1rem;"><input type="radio" name="mode" value="compliment"> Compliment Me 💖</label>
+  </div>
+
+  <div class="chat-box" id="chatBox">
+    <!-- Chat messages will appear here -->
+  </div>
+
+  <div class="input-area">
+    <input type="text" id="userInput" placeholder="Say something..." />
+    <button onclick="sendMessage()">Send</button>
+  </div>
+
+  <script>
+    const chatBox = document.getElementById('chatBox');
+    const userInput = document.getElementById('userInput');
+
+    function appendMessage(sender, text) {
+      const msg = document.createElement('div');
+      msg.className = `message ${sender}`;
+      msg.textContent = text;
+      chatBox.appendChild(msg);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function sendMessage() {
+      const text = userInput.value.trim();
+      if (!text) return;
+
+      appendMessage('user', text);
+
+      const mode = document.querySelector('input[name="mode"]:checked').value;
+
+      // For now: Simulated response
+      const mockReplies = {
+        roast: [
+          "That's cute. Try harder next time.",
+          "Bold of you to assume I care.",
+          "Wow, groundbreaking stuff... not.",
+        ],
+        compliment: [
+          "You're the kind of person everyone should meet at least once.",
+          "Even your typos are charming.",
+          "You're so bright you make the sun jealous.",
+        ]
+      };
+
+      const reply = mockReplies[mode][Math.floor(Math.random() * mockReplies[mode].length)];
+      setTimeout(() => {
+        appendMessage('bot', reply);
+      }, 500);
+
+      userInput.value = '';
+    }
+
+    userInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendMessage();
+    });
+  </script>
+
+</body>
+</html>
